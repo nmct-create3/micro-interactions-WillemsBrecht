@@ -44,6 +44,7 @@
     --global-html-backgroundColor: var(--global-color-neutral-xxxx-light);
     --global-selection-backgroundColor: var(--global-color-alpha);    
 
+    --global-color-error: #FF3333;
     /* borders */
     --global-borderRadius: 3px;
     --global-borderWidth: 1px;
@@ -522,6 +523,72 @@ input::placeholder {
 \*------------------------------------*/
 
 /*
+    Component: Input Error
+    ---
+    Show the users that an error has occured
+*/
+
+.c-error{
+    --local-color-error-label: var(--global-color-error);
+    --local-color-error-inputBorder: var(--global-color-error);
+    --local-color-error-boxshadow: #FF33334d
+}
+
+.c-error input:hover{
+    border-color: var(--local-color-error-inputBorder);
+    box-shadow: 0 0 0 3px var(--local-color-error-boxshadow);
+}
+
+
+
+/*
+    Component: Password Toggle
+    ---
+    Password Toggle
+*/
+
+.c-password-toggle-container{
+    position: relative;   
+    display: block;
+}
+
+.c-password-toggle{  
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.c-password-toggle__checkbox:checked + .c-password-toggle__label .c-password-toggle__symbol--show{
+    display: none;
+}
+
+.c-password-toggle__checkbox:checked + .c-password-toggle__label .c-password-toggle__symbol--hide{
+    display: block;
+}
+
+.c-password-toggle__label{
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+}
+
+.c-password-toggle__symbol{
+    width: 20px;
+    height: 20px;
+    fill: var(--global-color-neutral-x-light);
+    display: block;
+}
+
+.c-password-toggle__symbol--show{
+    display: block;
+}
+
+.c-password-toggle__symbol--hide{
+    display: none;
+}
+
+/*
     Component: Logo
     ---
     Website main logo
@@ -622,7 +689,7 @@ input::placeholder {
     -moz-appearance: none;
     appearance: none;
     width: 100%;
-    border: 1px solid var(--global-input-borderColor);
+    border: 1px solid var(--local-color-error-label, var(--global-input-borderColor));
     border-radius: var(--global-borderRadius);
     background-color: var(--global-input-backgroundColor);
     color: var(--global-input-color);
@@ -666,12 +733,30 @@ more padding on the right to avoid overlap
 */
 
 .c-label {
-    --label-color: var(--global-color-neutral-xx-dark);
+    /* --label-color: var(--global-color-neutral-xx-dark); */
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 0;
     padding-bottom: var(--global-whitespace-sm);
     font-size: 14px;
     line-height: 16px;
-    color: var(--label-color);
+    color: var(--local-color-error-label, var(--global-color-neutral-xx-dark));
+}
+
+.c-label-float{
+    position: absolute;
+    top: 12px;
+    left: 8px;
+    padding: 4px 8px;
+    will-change: transform;
+    transform: translateY( 0 );
+    transition: transform 200ms ease-in-out;
+    box-shadow: 0 0 4px 4px rgba(255,255,255,0.8);
+    background: white;
+}
+
+.c-form-field:focus-within .c-label-float, .isFloating{
+    transform: translateY(-24px);
 }
 
 .c-label--option {
@@ -862,9 +947,14 @@ more padding on the right to avoid overlap
     box-shadow: var(--toggle-boxShadow, 0);
 }
 
-.c-custom-toggle--inverted .c-custom-toggle__fake-input {
+.c-form-field .c-form-field--option .c-toggle-list__item .c-custom-toggle--inverted .c-custom-toggle__fake-input {
     margin-right: 0;
 }
+
+.c-form-field{
+    position: relative;
+}
+
 
 .c-custom-toggle__fake-input::after {
     position: relative;
